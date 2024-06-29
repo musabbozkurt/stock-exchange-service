@@ -40,7 +40,7 @@ public class UserControllerIntegrationTests extends BaseUnitTest {
 
     @Test
     @Order(value = 1)
-    void testConnectionToDatabase() {
+    void testServiceConnection() {
         Assertions.assertNotNull(userService);
         Assertions.assertNotNull(userMapper);
     }
@@ -54,7 +54,6 @@ public class UserControllerIntegrationTests extends BaseUnitTest {
         String response = restTemplate.exchange("/users/", HttpMethod.GET, new HttpEntity<>(headers), String.class).getBody();
 
         Assertions.assertNotNull(response);
-        // Add JSONPath or other assertions as needed
     }
 
     @Test
