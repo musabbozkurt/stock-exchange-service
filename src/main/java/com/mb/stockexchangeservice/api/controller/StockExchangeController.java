@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class StockExchangeController {
 
     @PostMapping("/")
     @Observed(name = "StockExchange")
-    // @PreAuthorize("hasRole('CREATE_STOCK_EXCHANGE')")
+    @PreAuthorize("hasRole('CREATE_STOCK_EXCHANGE')")
     @Operation(description = "Create stock exchange.")
     public ResponseEntity<ApiStockExchangeResponse> createStockExchange(@RequestBody ApiStockExchangeRequest apiStockExchangeRequest) {
         log.info("Received a request to create stock. createStockExchange - apiStockExchangeRequest: {}", apiStockExchangeRequest);
@@ -37,7 +38,7 @@ public class StockExchangeController {
     }
 
     @GetMapping("/{name}")
-    // @PreAuthorize("hasRole('GET_STOCK')")
+    @PreAuthorize("hasRole('GET_STOCK')")
     @Observed(name = "getStocksByStockExchange")
     @Operation(description = "List stocks of a specific stock exchange.")
     public ResponseEntity<List<ApiStockResponse>> getStocksByStockExchangeName(@PathVariable String name) {
@@ -46,7 +47,7 @@ public class StockExchangeController {
     }
 
     @PostMapping("/{name}")
-    // @PreAuthorize("hasRole('ADD_STOCK')")
+    @PreAuthorize("hasRole('ADD_STOCK')")
     @Observed(name = "addStockToStockExchange")
     @Operation(description = "Add a stock to a stock exchange.")
     public ResponseEntity<ApiStockExchangeResponse> addStockToStockExchange(@PathVariable String name, @RequestBody ApiStockRequest stock) {
@@ -55,7 +56,7 @@ public class StockExchangeController {
     }
 
     @DeleteMapping("/{name}/{stockName}")
-    // @PreAuthorize("hasRole('REMOVE_STOCK')")
+    @PreAuthorize("hasRole('REMOVE_STOCK')")
     @Observed(name = "deleteStockFromStockExchange")
     @Operation(description = "Delete a stock from a stock exchange.")
     public ResponseEntity<ApiStockExchangeResponse> deleteStockFromStockExchange(@PathVariable String name, @PathVariable String stockName) {

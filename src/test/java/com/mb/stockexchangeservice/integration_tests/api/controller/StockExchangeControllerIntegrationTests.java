@@ -2,15 +2,14 @@ package com.mb.stockexchangeservice.integration_tests.api.controller;
 
 import com.mb.stockexchangeservice.api.request.ApiStockExchangeRequest;
 import com.mb.stockexchangeservice.api.request.ApiStockRequest;
+import com.mb.stockexchangeservice.api.request.ApiUserAuthRequest;
 import com.mb.stockexchangeservice.api.response.ApiStockExchangeResponse;
 import com.mb.stockexchangeservice.api.response.ApiStockResponse;
+import com.mb.stockexchangeservice.api.response.JwtResponse;
 import com.mb.stockexchangeservice.base.BaseUnitTest;
-import com.mb.stockexchangeservice.config.TestSecurityConfig;
 import com.mb.stockexchangeservice.exception.BaseException;
 import com.mb.stockexchangeservice.exception.StockExchangeServiceErrorCode;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -26,11 +25,42 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ActiveProfiles("test-containers")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestSecurityConfig.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class StockExchangeControllerIntegrationTests extends BaseUnitTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    @BeforeAll
+    public void setUp() {
+        // Arrange
+        ApiUserAuthRequest apiUserAuthRequest = new ApiUserAuthRequest();
+        apiUserAuthRequest.setUsername("admin_user");
+        apiUserAuthRequest.setPassword("test1234");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<ApiUserAuthRequest> entity = new HttpEntity<>(apiUserAuthRequest, headers);
+
+        // Act
+        ResponseEntity<JwtResponse> response = restTemplate.exchange("/auth/signin", HttpMethod.POST, entity, JwtResponse.class);
+
+        JwtResponse jwtResponse = response.getBody();
+
+        // Assertions
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(jwtResponse);
+        String token = jwtResponse.getToken();
+        assertNotNull(token);
+
+        // Create RestTemplate with custom header interceptor
+        restTemplate.getRestTemplate().setInterceptors(Collections.singletonList((request, body, execution) -> {
+            request.getHeaders().add("Authorization", "Bearer ".concat(token));
+            return execution.execute(request, body);
+        }));
+    }
 
     @Test
     @Order(value = 1)

@@ -133,7 +133,7 @@ public class UserControllerIntegrationTests extends BaseUnitTest {
     @Test
     @Order(value = 9)
     void testDeleteUserById() {
-        String response = restTemplate.exchange("/users/1", HttpMethod.DELETE, null, String.class).getBody();
+        String response = restTemplate.exchange("/users/13", HttpMethod.DELETE, null, String.class).getBody();
 
         Assertions.assertEquals("User deleted successfully.", response);
     }
