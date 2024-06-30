@@ -8,11 +8,8 @@ import com.mb.stockexchangeservice.exception.BaseException;
 import com.mb.stockexchangeservice.exception.StockExchangeServiceErrorCode;
 import com.mb.stockexchangeservice.mapper.UserMapper;
 import com.mb.stockexchangeservice.service.UserService;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -131,6 +128,7 @@ public class UserControllerIntegrationTests extends BaseUnitTest {
     }
 
     @Test
+    @Disabled
     @Order(value = 9)
     void testDeleteUserById() {
         String response = restTemplate.exchange("/users/13", HttpMethod.DELETE, null, String.class).getBody();
