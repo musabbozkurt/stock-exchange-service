@@ -3,6 +3,7 @@ package com.mb.stockexchangeservice.integration_tests.api.controller;
 import com.mb.stockexchangeservice.api.request.ApiUserAuthRequest;
 import com.mb.stockexchangeservice.api.response.JwtResponse;
 import com.mb.stockexchangeservice.base.BaseUnitTest;
+import com.mb.stockexchangeservice.config.TestRedisConfiguration;
 import com.mb.stockexchangeservice.exception.BaseException;
 import com.mb.stockexchangeservice.exception.StockExchangeServiceErrorCode;
 import com.mb.stockexchangeservice.utils.JwtUtils;
@@ -16,7 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test-containers")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestRedisConfiguration.class)
 public class AuthControllerIntegrationTests extends BaseUnitTest {
 
     @Autowired
