@@ -7,6 +7,7 @@ import com.mb.stockexchangeservice.api.response.ApiStockExchangeResponse;
 import com.mb.stockexchangeservice.api.response.ApiStockResponse;
 import com.mb.stockexchangeservice.api.response.JwtResponse;
 import com.mb.stockexchangeservice.base.BaseUnitTest;
+import com.mb.stockexchangeservice.config.TestRedisConfiguration;
 import com.mb.stockexchangeservice.exception.BaseException;
 import com.mb.stockexchangeservice.exception.StockExchangeServiceErrorCode;
 import org.junit.jupiter.api.*;
@@ -26,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ActiveProfiles("test-containers")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = TestRedisConfiguration.class)
 public class StockExchangeControllerIntegrationTests extends BaseUnitTest {
 
     @Autowired
