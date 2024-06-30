@@ -30,10 +30,13 @@ CREATE TABLE IF NOT EXISTS stock_exchange_service.roles
 
 CREATE TABLE IF NOT EXISTS stock_exchange_service.authorities
 (
-    user_id   bigint       not null,
-    role_id   bigint       not null,
-    username  varchar(255) not null,
-    authority varchar(255) not null
+    user_id   bigint not null,
+    role_id   bigint not null,
+    username  varchar(255),
+    authority varchar(255),
+    foreign key (user_id) references stock_exchange_service.users (id),
+    foreign key (role_id) references stock_exchange_service.roles (id),
+    primary key (user_id, role_id)
 );
 
 CREATE TABLE if not exists stock_exchange_service.stocks
@@ -136,26 +139,27 @@ where not exists (select 1
                         (select id from stock_exchange_service.stock_exchanges where name = 'London Stock Exchange')
                     and stock_id = (select id from stock_exchange_service.stock_exchanges where name = 'TSLA'));
 
-insert into stock_exchange_service.roles (id, name, created_date_time, deleted)
-values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'CREATE_STOCK', now(), false);
+insert into stock_exchange_service.roles (id, name, created_date_time, default_role, deleted)
+values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'CREATE_STOCK', now(), true, false);
 
-insert into stock_exchange_service.roles (id, name, created_date_time, deleted)
-values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'UPDATE_STOCK', now(), false);
+insert into stock_exchange_service.roles (id, name, created_date_time, default_role, deleted)
+values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'UPDATE_STOCK', now(), true, false);
 
-insert into stock_exchange_service.roles (id, name, created_date_time, deleted)
-values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'GET_STOCK', now(), false);
+insert into stock_exchange_service.roles (id, name, created_date_time, default_role, deleted)
+values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'GET_STOCK', now(), true, false);
 
-insert into stock_exchange_service.roles (id, name, created_date_time, deleted)
-values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'DELETE_STOCK', now(), false);
+insert into stock_exchange_service.roles (id, name, created_date_time, default_role, deleted)
+values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'DELETE_STOCK', now(), true, false);
 
-insert into stock_exchange_service.roles (id, name, created_date_time, deleted)
-values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'CREATE_STOCK_EXCHANGE', now(), false);
+insert into stock_exchange_service.roles (id, name, created_date_time, default_role, deleted)
+values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'CREATE_STOCK_EXCHANGE', now(), true,
+        false);
 
-insert into stock_exchange_service.roles (id, name, created_date_time, deleted)
-values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'ADD_STOCK', now(), false);
+insert into stock_exchange_service.roles (id, name, created_date_time, default_role, deleted)
+values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'ADD_STOCK', now(), true, false);
 
-insert into stock_exchange_service.roles (id, name, created_date_time, deleted)
-values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'REMOVE_STOCK', now(), false);
+insert into stock_exchange_service.roles (id, name, created_date_time, default_role, deleted)
+values ((select nextval('stock_exchange_service.default_sequence'::regclass)), 'REMOVE_STOCK', now(), true, false);
 
 insert into stock_exchange_service.authorities (user_id, role_id, username, authority)
 values ((select id from stock_exchange_service.users where username = 'admin_user'),

@@ -88,7 +88,7 @@ logging:
 
 testing:
   app:
-    jwt-secret: testingSecretKey
+    jwt-secret: testingSecretKeyTestingSecretKeyTestingSecretKeyTestingSecretKeyTestingSecretKeyTestingSecretKey
     jwt-expiration-ms: 600000 # token will expire in 10 minutes
 
 token:

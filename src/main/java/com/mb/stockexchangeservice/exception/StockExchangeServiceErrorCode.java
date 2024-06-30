@@ -12,6 +12,7 @@ public enum StockExchangeServiceErrorCode implements Serializable, ErrorCode {
     UNKNOWN_ERROR(HttpStatus.BAD_REQUEST),
     INVALID_VALUE(HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND),
+    BAD_CREDENTIALS(HttpStatus.FORBIDDEN),
     ACCESS_DENIED(HttpStatus.FORBIDDEN),
     TOKEN_EXPIRED(HttpStatus.FORBIDDEN),
     STOCK_NOT_FOUND(HttpStatus.NOT_FOUND),

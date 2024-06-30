@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -25,7 +26,7 @@ public class StockController {
 
     @GetMapping("/")
     @Observed(name = "getAllStocks")
-    // @PreAuthorize("hasRole('GET_STOCK')")
+    @PreAuthorize("hasRole('GET_STOCK')")
     @Operation(description = "Get all stock.")
     public ResponseEntity<Page<ApiStockResponse>> getAllStocks(Pageable pageable) {
         log.info("Received a request to get all stocks. getAllStocks.");
@@ -34,7 +35,7 @@ public class StockController {
 
     @GetMapping("/{name}")
     @Observed(name = "getStockByName")
-    // @PreAuthorize("hasRole('GET_STOCK')")
+    @PreAuthorize("hasRole('GET_STOCK')")
     @Operation(description = "Get stock by name.")
     public ResponseEntity<ApiStockResponse> getStockByName(@PathVariable String name) {
         log.info("Received a request to get stock by name. getStockByName - name: {}", name);
@@ -43,7 +44,7 @@ public class StockController {
 
     @PostMapping("/")
     @Observed(name = "createStock")
-    // @PreAuthorize("hasRole('CREATE_STOCK')")
+    @PreAuthorize("hasRole('CREATE_STOCK')")
     @Operation(description = "Create stock.")
     public ResponseEntity<ApiStockResponse> createStock(@RequestBody ApiStockRequest apiStockRequest) {
         log.info("Received a request to create stock. createStock - apiStockRequest: {}", apiStockRequest);
@@ -52,7 +53,7 @@ public class StockController {
 
     @PutMapping("/{stockId}")
     @Observed(name = "updateStockById")
-    // @PreAuthorize("hasRole('UPDATE_STOCK')")
+    @PreAuthorize("hasRole('UPDATE_STOCK')")
     @Operation(description = "Update stock by id.")
     public ResponseEntity<ApiStockResponse> updateStockById(@PathVariable Long stockId, @RequestBody ApiStockRequest apiStockRequest) {
         log.info("Received a request to update stock by id. updateStockById - stock: {}, apiStockRequest: {}", stockId, apiStockRequest);
@@ -61,7 +62,7 @@ public class StockController {
 
     @DeleteMapping("/{stockId}")
     @Observed(name = "deleteStockById")
-    // @PreAuthorize("hasRole('DELETE_STOCK')")
+    @PreAuthorize("hasRole('DELETE_STOCK')")
     @Operation(description = "Delete stock by id")
     public ResponseEntity<String> deleteStockById(@PathVariable Long stockId) {
         log.info("Received a request to delete stock by id. deleteStockById - stockId: {}", stockId);

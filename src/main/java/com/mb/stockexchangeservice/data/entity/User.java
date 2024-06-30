@@ -1,5 +1,6 @@
 package com.mb.stockexchangeservice.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
@@ -31,6 +32,8 @@ public class User extends BaseEntity {
     @Column(unique = true, nullable = false)
     private String username;
 
+    @JsonIgnore
+    @ToString.Exclude
     @Column(nullable = false)
     private String password;
 

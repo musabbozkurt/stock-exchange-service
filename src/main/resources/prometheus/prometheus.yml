@@ -9,6 +9,6 @@ scrape_configs:
       - targets: [ 'host.docker.internal:9090' ]
 
   - job_name: 'stock-exchange-service'
-    metrics_path: '/actuator/prometheus'
+    metrics_path: '/api/v1/actuator/prometheus'
     static_configs:
       - targets: [ 'host.docker.internal:8080' ]
