@@ -155,4 +155,3 @@ public class StockControllerIntegrationTests extends BaseUnitTest {
         Assertions.assertEquals(StockExchangeServiceErrorCode.STOCK_NOT_FOUND, response.getBody().getErrorCode());
     }
 }
-
