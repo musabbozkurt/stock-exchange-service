@@ -38,6 +38,10 @@
 * Grafana: http://localhost:3000/
     * `Email or username: admin`
     * `Password: admin`
+    * Add datasource
+        * Select Prometheus
+        * Prometheus Url: http://prometheus:9090/
+        * Save & test
 * PostgreSQL DB connection details
     * `POSTGRES_USER: postgres`
     * `POSTGRES_PASSWORD: postgres`

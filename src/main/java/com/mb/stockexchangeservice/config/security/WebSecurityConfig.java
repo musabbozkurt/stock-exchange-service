@@ -21,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -32,6 +31,8 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
+    private static final String[] ALLOWED_ENDPOINT_PATTERNS = {"/h2-console/**", "/swagger-resources", "/swagger-ui.html",
+            "/swagger-ui/index.html", "/swagger-ui/**", "/api-docs/**", "/actuator/**", "/auth/**"};
     private final AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
@@ -65,14 +66,7 @@ public class WebSecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer.authenticationEntryPoint(unauthorizedHandler))
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers(new AntPathRequestMatcher("/h2-console/**"),
-                                new AntPathRequestMatcher("/swagger-resources"),
-                                new AntPathRequestMatcher("/swagger-ui.html"),
-                                new AntPathRequestMatcher("/swagger-ui/index.html"),
-                                new AntPathRequestMatcher("/swagger-ui/**"),
-                                new AntPathRequestMatcher("/api-docs/**"),
-                                new AntPathRequestMatcher("/actuator/**"),
-                                new AntPathRequestMatcher("/auth/**"))
+                        .requestMatchers(ALLOWED_ENDPOINT_PATTERNS)
                         .permitAll()
                         .anyRequest()
                         .authenticated())
